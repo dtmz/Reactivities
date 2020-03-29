@@ -25,7 +25,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                             <Route exact path='/activities' component={ActivityDashboard} />
                             <Route path='/activities/:id' component={ActivityDetails} />
                             <Route key={location.key} path={['/createActivity', '/manage/:id']} component={ActivityForm} />
-                            <Route component={NotFound} />
+                            <Route component={NotFound} /> 
                         </Switch>
                     </Container>
                 </Fragment>
@@ -33,6 +33,8 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
         </Fragment>
     );
 }
+
+// a <Route/> that isn't hit defaults such as the one above <Route component={NotFound} />. Because there are no paths it will be the one that gets hit
 
 // withRouter wires up the app with routing properties accessible via RouteComponentProps
 export default withRouter(observer(App));
