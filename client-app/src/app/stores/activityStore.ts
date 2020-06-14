@@ -1,4 +1,4 @@
-import { observable, action, computed, runInAction, reaction } from 'mobx';
+import { observable, action, computed, runInAction, reaction, toJS } from 'mobx';
 import { SyntheticEvent } from 'react';
 import { IActivity } from '../models/activity';
 import agent from '../api/agent';
@@ -69,7 +69,7 @@ export default class ActivityStore {
     // create and start a signalR hub connection
     @action createHubConnection = (activityId: string) => {
         this.hubConnection = new HubConnectionBuilder()
-            .withUrl('http://localhost:5000/chat', {
+            .withUrl(process.env.REACT_APP_API_CHAT_URL!, {
                 accessTokenFactory: () => this.rootStore.commonStore.token!
             })
             .configureLogging(LogLevel.Information)
@@ -172,13 +172,13 @@ export default class ActivityStore {
     @action loadActivity = async (id: string) => {
         let activity = this.getActivity(id);
         if (activity) {
-            this.activity = activity;
-            return activity;
+            this.activity = activity; // this activity is an observable (as its coming from cache (which is observable))
+            return toJS(activity); // mobx supports cloning the observable to a basic javascript object
         }
         else {
             this.loadingInitial = true;
             try {
-                activity = await agent.Activities.details(id);
+                activity = await agent.Activities.details(id); // this object is a basic javascript object
                 runInAction('getting activity', () => {
                     setActivityProps(activity, this.rootStore.userStore.user!);
                     this.activity = activity;
