@@ -57,7 +57,9 @@ namespace API
                 
                     mySqlOptions
                     // replace with your Server Version and Type
-                    .ServerVersion(new Version(8, 0, 18), ServerType.MySql)
+                    //.ServerVersion(new Version(8, 0, 18), ServerType.MySql)
+                    .ServerVersion(new Version(5, 7, 0), ServerType.MySql)
+                    .EnableRetryOnFailure()
                 );
             });
                         
