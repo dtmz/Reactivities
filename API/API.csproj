@@ -24,5 +24,6 @@
     <None Update="app.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Dockerfile" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>
